@@ -1,25 +1,25 @@
 {
-  "name": "@audio/saturate-tape",
+  "name": "@audio/saturate-core",
   "version": "1.0.0",
-  "description": "Tape saturation — tanh transfer + playback HF rolloff (simplified machine model)",
+  "description": "Shared saturation machinery — sinc-oversampled transfer application (no aliasing waveshapers)",
   "type": "module",
   "sideEffects": false,
-  "main": "tape.js",
+  "main": "core.js",
   "exports": {
-    ".": "./tape.js",
+    ".": "./core.js",
     "./package.json": "./package.json"
   },
   "files": [
-    "tape.js"
+    "core.js"
   ],
   "dependencies": {
-    "@audio/saturate-core": "^1.0.0"
+    "@audio/resample-sinc": "file:../../../resample/packages/resample-sinc"
   },
   "keywords": [
     "audio",
     "dsp",
     "saturation",
-    "tape"
+    "core"
   ],
   "license": "MIT",
   "author": "Dmitry Iv. <dfcreative@gmail.com>",

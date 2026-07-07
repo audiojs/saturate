@@ -1,10 +1,20 @@
 {
   "name": "@audio/saturate-tube",
-  "version": "0.0.0",
-  "description": "Tube/valve saturation — asymmetric transfer, even harmonics, bias control (Dynamic Tube class)",
+  "version": "1.0.0",
+  "description": "Tube saturation — asymmetric biased tanh, even-harmonic signature",
   "type": "module",
   "sideEffects": false,
-  "private": true,
+  "main": "tube.js",
+  "exports": {
+    ".": "./tube.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "tube.js"
+  ],
+  "dependencies": {
+    "@audio/saturate-core": "^1.0.0"
+  },
   "keywords": [
     "audio",
     "dsp",
@@ -15,5 +25,8 @@
   "author": "Dmitry Iv. <dfcreative@gmail.com>",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

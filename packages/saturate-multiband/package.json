@@ -1,10 +1,21 @@
 {
   "name": "@audio/saturate-multiband",
-  "version": "0.0.0",
-  "description": "Multiband saturation — per-band drive/character (FabFilter Saturn class)",
+  "version": "1.0.0",
+  "description": "Multiband saturation — LR split + per-band tube drive (Saturn class)",
   "type": "module",
   "sideEffects": false,
-  "private": true,
+  "main": "multiband.js",
+  "exports": {
+    ".": "./multiband.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "multiband.js"
+  ],
+  "dependencies": {
+    "@audio/eq-crossover": "file:../../../eq/packages/eq-crossover",
+    "@audio/saturate-tube": "^1.0.0"
+  },
   "keywords": [
     "audio",
     "dsp",
@@ -15,5 +26,8 @@
   "author": "Dmitry Iv. <dfcreative@gmail.com>",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

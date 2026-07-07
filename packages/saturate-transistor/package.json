@@ -1,10 +1,20 @@
 {
   "name": "@audio/saturate-transistor",
-  "version": "0.0.0",
-  "description": "Transistor/console saturation — odd harmonics, crossover character (SSL/Neve console class)",
+  "version": "1.0.0",
+  "description": "Transistor/console saturation — odd-symmetric cubic, 3rd-harmonic dominant",
   "type": "module",
   "sideEffects": false,
-  "private": true,
+  "main": "transistor.js",
+  "exports": {
+    ".": "./transistor.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "transistor.js"
+  ],
+  "dependencies": {
+    "@audio/saturate-core": "^1.0.0"
+  },
   "keywords": [
     "audio",
     "dsp",
@@ -15,5 +25,8 @@
   "author": "Dmitry Iv. <dfcreative@gmail.com>",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
