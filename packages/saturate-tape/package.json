@@ -1,0 +1,19 @@
+{
+  "name": "@audio/saturate-tape",
+  "version": "0.0.0",
+  "description": "Tape saturation — soft-knee transfer with HF compression and low-end bump (Studer/J37 class)",
+  "type": "module",
+  "sideEffects": false,
+  "private": true,
+  "keywords": [
+    "audio",
+    "dsp",
+    "saturation",
+    "tape"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Iv. <dfcreative@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  }
+}

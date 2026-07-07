@@ -1,0 +1,19 @@
+{
+  "name": "@audio/saturate-multiband",
+  "version": "0.0.0",
+  "description": "Multiband saturation — per-band drive/character (FabFilter Saturn class)",
+  "type": "module",
+  "sideEffects": false,
+  "private": true,
+  "keywords": [
+    "audio",
+    "dsp",
+    "saturation",
+    "multiband"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Iv. <dfcreative@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  }
+}
