@@ -1,7 +1,7 @@
 {
   "name": "@audio/saturate-multiband",
   "version": "1.0.0",
-  "description": "Multiband saturation — LR split + per-band tube drive (Saturn class)",
+  "description": "Multiband saturation \u2014 LR split + per-band tube drive (Saturn class)",
   "type": "module",
   "sideEffects": false,
   "main": "multiband.js",
@@ -13,7 +13,7 @@
     "multiband.js"
   ],
   "dependencies": {
-    "@audio/eq-crossover": "file:../../../eq/packages/eq-crossover",
+    "@audio/eq-crossover": "^1.0.0",
     "@audio/saturate-tube": "^1.0.0"
   },
   "keywords": [
