@@ -8,11 +8,11 @@
   "exports": {
     ".": "./tube.js",
     "./package.json": "./package.json",
-    "./am": "./am.js"
+    "./audio-module": "./audio-module.js"
   },
   "files": [
     "tube.js",
-    "am.js"
+    "audio-module.js"
   ],
   "dependencies": {
     "@audio/saturate-core": "^1.0.0"
@@ -31,5 +31,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "audio-module": "./am.js"
+  "audio-module": "./audio-module.js"
 }
