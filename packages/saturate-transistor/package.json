@@ -1,17 +1,19 @@
 {
   "name": "@audio/saturate-transistor",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Transistor/console saturation — odd-symmetric cubic, 3rd-harmonic dominant",
   "type": "module",
   "sideEffects": false,
   "main": "transistor.js",
   "exports": {
     ".": "./transistor.js",
+    "./atom": "./atom.js",
     "./package.json": "./package.json"
   },
   "files": [
     "transistor.js",
-    "shape.js"
+    "shape.js",
+    "atom.js"
   ],
   "dependencies": {
     "@audio/resample-sinc": "^1.0.0"
@@ -29,5 +31,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "atom": "./atom.js"
 }
