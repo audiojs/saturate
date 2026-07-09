@@ -1,4 +1,4 @@
-// audio-module manifest — tube saturation. streaming: false — the sinc-oversampled
+// atom manifest — tube saturation. streaming: false — the sinc-oversampled
 // transfer needs whole-signal context (per-block oversampling would seam at edges);
 // realtime targets need a streaming polyphase oversampler first.
 

@@ -1,18 +1,18 @@
 {
   "name": "@audio/saturate-tube",
-  "version": "1.0.0",
-  "description": "Tube saturation \u2014 asymmetric biased tanh, even-harmonic signature",
+  "version": "1.0.1",
+  "description": "Tube saturation — asymmetric biased tanh, even-harmonic signature",
   "type": "module",
   "sideEffects": false,
   "main": "tube.js",
   "exports": {
     ".": "./tube.js",
     "./package.json": "./package.json",
-    "./audio-module": "./audio-module.js"
+    "./atom": "./atom.js"
   },
   "files": [
     "tube.js",
-    "audio-module.js"
+    "atom.js"
   ],
   "dependencies": {
     "@audio/saturate-core": "^1.0.0"
@@ -31,5 +31,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "audio-module": "./audio-module.js"
+  "atom": "./atom.js"
 }
