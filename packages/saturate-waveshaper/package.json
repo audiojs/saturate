@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate-waveshaper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Waveshaper — normalized tanh or custom curve, oversampled",
   "type": "module",
   "sideEffects": false,
@@ -10,10 +10,11 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "waveshaper.js"
+    "waveshaper.js",
+    "shape.js"
   ],
   "dependencies": {
-    "@audio/saturate-core": "^1.0.0"
+    "@audio/resample-sinc": "^1.0.0"
   },
   "keywords": [
     "audio",

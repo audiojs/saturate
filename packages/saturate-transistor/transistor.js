@@ -1,6 +1,6 @@
 // Transistor/console saturation — odd-symmetric cubic soft clip:
 // pure odd harmonics (3rd-dominant), the solid-state/console color.
-import { shape } from '@audio/saturate-core'
+import { shape } from './shape.js'
 
 export default function transistor (data, { drive = 2, fs = 44100, oversample = 4, mix = 1 } = {}) {
 	let fn = x => {

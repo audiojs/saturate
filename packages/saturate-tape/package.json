@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate-tape",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tape saturation — tanh transfer + playback HF rolloff (simplified machine model)",
   "type": "module",
   "sideEffects": false,
@@ -10,10 +10,11 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "tape.js"
+    "tape.js",
+    "shape.js"
   ],
   "dependencies": {
-    "@audio/saturate-core": "^1.0.0"
+    "@audio/resample-sinc": "^1.0.0"
   },
   "keywords": [
     "audio",

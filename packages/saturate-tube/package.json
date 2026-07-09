@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate-tube",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tube saturation — asymmetric biased tanh, even-harmonic signature",
   "type": "module",
   "sideEffects": false,
@@ -12,10 +12,11 @@
   },
   "files": [
     "tube.js",
-    "atom.js"
+    "atom.js",
+    "shape.js"
   ],
   "dependencies": {
-    "@audio/saturate-core": "^1.0.0"
+    "@audio/resample-sinc": "^1.0.0"
   },
   "keywords": [
     "audio",

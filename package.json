@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "sideEffects": false,
   "description": "Saturation — umbrella for @audio/saturate-* atoms (tape, tube, transistor, waveshaper, multiband)",
@@ -34,7 +34,6 @@
     "publish:all": "npm publish --workspaces && npm publish"
   },
   "dependencies": {
-    "@audio/saturate-core": "^1.0.0",
     "@audio/saturate-waveshaper": "^1.0.0",
     "@audio/saturate-tube": "^1.0.0",
     "@audio/saturate-transistor": "^1.0.0",

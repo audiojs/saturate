@@ -1,4 +1,4 @@
-// Shared saturation machinery — oversampled nonlinearity application.
+// Oversampled nonlinearity application (inlined family convention).
 // Upsample (windowed-sinc) → per-sample transfer → decimate (windowed-sinc, anti-aliased),
 // so waveshaping harmonics above Nyquist don't fold back as aliases.
 
@@ -20,12 +20,5 @@ export function shape (data, fn, { fs = 44100, oversample = 4, mix = 1 } = {}) {
 	} else {
 		for (let i = 0; i < data.length; i++) data[i] = data[i] * (1 - mix) + fn(data[i]) * mix
 	}
-	return data
-}
-
-/** one-pole lowpass in place (post-shaping tone rounding) */
-export function onepole (data, coef) {
-	let s = 0
-	for (let i = 0; i < data.length; i++) s = data[i] = data[i] * (1 - coef) + s * coef
 	return data
 }

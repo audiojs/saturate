@@ -1,6 +1,6 @@
 // Tape saturation — simplified machine model: tanh transfer with gentle post HF
 // rolloff (playback-head loss). Even/odd blend milder than tube/transistor.
-import { shape, onepole } from '@audio/saturate-core'
+import { shape, onepole } from './shape.js'
 
 export default function tape (data, { drive = 1.5, warmth = 0.25, fs = 44100, oversample = 4, mix = 1 } = {}) {
 	let dry = mix < 1 ? Float32Array.from(data) : null
