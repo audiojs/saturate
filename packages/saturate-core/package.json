@@ -1,7 +1,7 @@
 {
   "name": "@audio/saturate-core",
-  "version": "1.0.0",
-  "description": "Shared saturation machinery \u2014 sinc-oversampled transfer application (no aliasing waveshapers)",
+  "version": "1.0.1",
+  "description": "Internal glue for @audio/saturate-* atoms — sinc-oversampled waveshaper transfer (anti-aliased) + one-pole helper",
   "type": "module",
   "sideEffects": false,
   "main": "core.js",
