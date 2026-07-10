@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate-transistor",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Transistor/console saturation — odd-symmetric cubic, 3rd-harmonic dominant",
   "type": "module",
   "sideEffects": false,

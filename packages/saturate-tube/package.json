@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate-tube",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Tube saturation — asymmetric biased tanh, even-harmonic signature",
   "type": "module",
   "sideEffects": false,
