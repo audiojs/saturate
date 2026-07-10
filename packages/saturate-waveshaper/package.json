@@ -7,13 +7,17 @@
   "main": "waveshaper.js",
   "exports": {
     ".": "./waveshaper.js",
-    "./audio": "./audio.js",
+    "./audio": {
+      "types": "./audio.d.ts",
+      "default": "./audio.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "waveshaper.js",
     "shape.js",
-    "audio.js"
+    "audio.js",
+    "audio.d.ts"
   ],
   "dependencies": {
     "@audio/resample-sinc": "^1.0.0"

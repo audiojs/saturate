@@ -8,12 +8,16 @@
   "exports": {
     ".": "./tube.js",
     "./package.json": "./package.json",
-    "./audio": "./audio.js"
+    "./audio": {
+      "types": "./audio.d.ts",
+      "default": "./audio.js"
+    }
   },
   "files": [
     "tube.js",
     "audio.js",
-    "shape.js"
+    "shape.js",
+    "audio.d.ts"
   ],
   "dependencies": {
     "@audio/resample-sinc": "^1.0.0"
