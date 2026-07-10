@@ -1,5 +1,5 @@
 // atom manifest — tape saturation (tanh + even-harmonic bend + warmth one-pole).
-// streaming: false per the family precedent (@audio/saturate-tube/atom): the
+// streaming: false per the family precedent (@audio/saturate-tube/audio): the
 // sinc-oversampled transfer needs whole-signal context — per-block oversampling
 // would seam at block edges.
 

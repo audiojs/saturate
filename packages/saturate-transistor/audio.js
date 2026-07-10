@@ -1,5 +1,5 @@
 // atom manifest — transistor saturation (soft-clip cubic transfer, fuzz-face class).
-// streaming: false per the family precedent (@audio/saturate-tube/atom): the
+// streaming: false per the family precedent (@audio/saturate-tube/audio): the
 // sinc-oversampled transfer needs whole-signal context — per-block oversampling
 // would seam at block edges.
 

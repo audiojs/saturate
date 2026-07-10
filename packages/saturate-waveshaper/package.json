@@ -1,19 +1,19 @@
 {
   "name": "@audio/saturate-waveshaper",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Waveshaper — normalized tanh or custom curve, oversampled",
   "type": "module",
   "sideEffects": false,
   "main": "waveshaper.js",
   "exports": {
     ".": "./waveshaper.js",
-    "./atom": "./atom.js",
+    "./audio": "./audio.js",
     "./package.json": "./package.json"
   },
   "files": [
     "waveshaper.js",
     "shape.js",
-    "atom.js"
+    "audio.js"
   ],
   "dependencies": {
     "@audio/resample-sinc": "^1.0.0"
@@ -32,5 +32,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "atom": "./atom.js"
+  "audio": "./audio.js"
 }
