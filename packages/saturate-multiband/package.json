@@ -20,7 +20,8 @@
   ],
   "dependencies": {
     "@audio/eq-crossover": "^1.0.0",
-    "@audio/saturate-tube": "^1.0.0"
+    "@audio/saturate-tube": "^1.0.0",
+    "@audio/biquad": "^1.1.0"
   },
   "keywords": [
     "audio",
@@ -36,5 +37,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "audio": "./audio.js"
+  "audio": "./audio.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/audiojs/saturate.git",
+    "directory": "packages/saturate-multiband"
+  }
 }
