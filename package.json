@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "sideEffects": false,
   "description": "Saturation — umbrella for @audio/saturate-* atoms (tape, tube, transistor, waveshaper, multiband)",
@@ -49,5 +49,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/audiojs/saturate.git"
-  }
+  },
+  "funding": "https://github.com/sponsors/audiojs"
 }
