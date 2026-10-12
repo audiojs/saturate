@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "sideEffects": false,
   "description": "Saturation — umbrella for @audio/saturate-* atoms (tape, tube, transistor, waveshaper, multiband)",
