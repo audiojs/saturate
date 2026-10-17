@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "type": "module",
   "sideEffects": false,
   "description": "Saturation — umbrella for @audio/saturate-* atoms (tape, tube, transistor, waveshaper, multiband)",
@@ -26,23 +26,30 @@
       "types": "./index.d.ts",
       "default": "./index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./members/*.d.ts",
+      "default": "./members/*.js"
+    }
   },
   "files": [
     "index.js",
-    "*.d.ts"
+    "*.d.ts",
+    "members/"
   ],
   "scripts": {
     "test": "node test.js",
     "test:all": "npm test --workspaces --if-present && npm test",
-    "publish:all": "npm publish --workspaces && npm publish"
+    "publish:all": "npm publish --workspaces && npm publish",
+    "members": "node scripts/members.js",
+    "prepublishOnly": "node scripts/members.js --check"
   },
   "dependencies": {
-    "@audio/saturate-waveshaper": "^1.0.0",
-    "@audio/saturate-tube": "^1.0.0",
-    "@audio/saturate-transistor": "^1.0.0",
-    "@audio/saturate-tape": "^1.0.0",
-    "@audio/saturate-multiband": "^1.0.0"
+    "@audio/saturate-waveshaper": "^1.1.3",
+    "@audio/saturate-tube": "^1.0.5",
+    "@audio/saturate-transistor": "^1.1.3",
+    "@audio/saturate-tape": "^1.1.3",
+    "@audio/saturate-multiband": "^1.1.4"
   },
   "devDependencies": {
     "tst": "^9.4.0"
