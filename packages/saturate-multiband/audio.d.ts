@@ -25,7 +25,8 @@ export interface MultisatOptions {
 export declare const multisat: {
   (ctx: Ctx): Process
   channels: "any"
-  streaming: false
+  latency: 20
+  tail: (at: { sampleRate: number, params: Live, buffers: {} }) => number
   params: {
     /** 40..1000 Hz (default 200) */
     "low": { type: "number", default: 200 }

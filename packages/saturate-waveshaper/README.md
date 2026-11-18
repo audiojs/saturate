@@ -27,6 +27,8 @@ waveshaper(data, { curve: x => x - x ** 3 / 3, fs: 44100 })  // custom transfer
 
 **Mutates `data` in place** and returns it (same array reference, not a copy). `mix: 0` is an exact passthrough — verified bit-close (`<1e-6`) in the family test suite.
 
+`stream(block, { drive: [4], mix: [1] }, state(1024))` is the same transfer in calls of any size (up to the size given to `state`), oversampled 4×, its state carried from call to call; a `curve` in the same object takes the place of `drive`. The whole call reads 20 samples ahead of each output; a stream cannot, so its output is `LATENCY` (20) samples late, and moves `RING` (19) samples past that once its input stops (for a curve that takes 0 to 0). Shifted back by `LATENCY` it is the whole call's output bit for bit, except within 20 samples of the ends of a whole signal. Values arrive as a host gives them to a processor, each a 1-length array, read at each call. The `./audio` processor runs it on each channel: latency 20 samples, tail 19 samples, `drive` and `mix` live: each declares `smoothing` (20 ms) and is glided sample by sample along the host's ramp, 32 samples late, so a moved value is one line however the host cut its calls and a held one is the value itself, bit for bit (`lanes` after the length: drive and mix from 0 and `stride`).
+
 **Use when:** you need a specific custom transfer curve, or a clean tanh baseline without a particular harmonic-symmetry signature.<br>
 **Not for:** a specific circuit-modeled color — use `tube` (even harmonics), `transistor` (odd harmonics), or `tape` (HF-rolled tanh) for those.
 

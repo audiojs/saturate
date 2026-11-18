@@ -14,3 +14,27 @@ export interface TapeOptions {
 
 /** Process a mono buffer in place; returns the same array. */
 export default function tape(data: Float32Array, options?: TapeOptions): Float32Array
+
+/** The one-pole's coefficient, its pole, for a warmth: 0.35 + 0.45·warmth. */
+export function pole(warmth: number): number
+
+/** A number as a host gives a processor its values: a 1-length array. */
+export type Value = ArrayLike<number>
+
+/** State of `stream`: the oversampler's input and output history and the one-pole's, for calls of up to the size it was made for. */
+export interface TapeState { x: Float32Array; hi: Float32Array; y: Float32Array; dry: Float32Array; lp: Float64Array }
+
+/** Samples the streaming form's output is late: the whole call's oversampler reads that far ahead. */
+export declare const LATENCY: 20
+/** Samples the oversampler's output still moves once its input stops, past LATENCY (the one-pole rings on). */
+export declare const RING: 19
+
+/** State for `stream`, for calls of up to `maxBlockSize` samples. */
+export function state(maxBlockSize: number): TapeState
+
+/**
+ * Streaming form, the shaping oversampled 4×: `length` samples of `data` in place (default all), `state` carried from
+ * call to call, the output LATENCY samples late; values read at each call. `lanes`: drive and mix for each sample, from
+ * 0 and `stride`, in place of `values`' (the ./audio processor's glide). Returns `data`.
+ */
+export function stream(data: Float32Array, values: { drive: Value; warmth: Value; mix: Value }, state: TapeState, length?: number, lanes?: Float64Array, stride?: number): Float32Array

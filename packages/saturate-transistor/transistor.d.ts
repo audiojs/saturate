@@ -12,3 +12,24 @@ export interface TransistorOptions {
 
 /** Process a mono buffer in place; returns the same array. */
 export default function transistor(data: Float32Array, options?: TransistorOptions): Float32Array
+
+/** A number as a host gives a processor its values: a 1-length array. */
+export type Value = ArrayLike<number>
+
+/** State of `stream`: the oversampler's input and output history, for calls of up to the size it was made for. */
+export interface TransistorState { x: Float32Array; hi: Float32Array; y: Float32Array; dry: Float32Array }
+
+/** Samples the streaming form's output is late: the whole call's oversampler reads that far ahead. */
+export declare const LATENCY: 20
+/** Samples the streaming form's output still moves once its input stops, past LATENCY. */
+export declare const RING: 19
+
+/** State for `stream`, for calls of up to `maxBlockSize` samples. */
+export function state(maxBlockSize: number): TransistorState
+
+/**
+ * Streaming form, oversampled 4×: `length` samples of `data` in place (default all), `state` carried from call to
+ * call, the output LATENCY samples late; values read at each call. `lanes`: drive and mix for each sample, from 0 and
+ * `stride`, in place of `values`' (the ./audio processor's glide). Returns `data`.
+ */
+export function stream(data: Float32Array, values: { drive: Value; mix: Value }, state: TransistorState, length?: number, lanes?: Float64Array, stride?: number): Float32Array

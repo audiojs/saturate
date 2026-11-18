@@ -13,10 +13,14 @@
       "default": "./audio.js"
     }
   },
+  "scripts": {
+    "prepublishOnly": "node ../../../compile/tools/tested.js"
+  },
   "files": [
     "tube.js",
     "audio.js",
     "shape.js",
+    "oversample.js",
     "audio.d.ts",
     "tube.d.ts"
   ],
