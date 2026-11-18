@@ -26,9 +26,9 @@ export interface MultibandState {
 }
 
 /** Samples the streaming form's output is late: each band's tube stage reads that far ahead in the whole call. */
-export declare const LATENCY: 20
+export declare const LATENCY: 31
 /** Samples a band's oversampler still moves once its input stops, past LATENCY (the crossover rings on). */
-export declare const RING: 19
+export declare const RING: 31
 
 /** State for `stream` at `fs` (default 44100), for calls of up to `maxBlockSize` samples. */
 export function state(maxBlockSize: number, fs?: number): MultibandState

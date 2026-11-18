@@ -20,12 +20,11 @@
     "tube.js",
     "audio.js",
     "shape.js",
-    "oversample.js",
     "audio.d.ts",
     "tube.d.ts"
   ],
   "dependencies": {
-    "@audio/resample-sinc": "^1.0.0"
+    "@audio/resample-sinc": "^1.4.0"
   },
   "keywords": [
     "audio",

@@ -19,13 +19,12 @@
   "files": [
     "waveshaper.js",
     "shape.js",
-    "oversample.js",
     "audio.js",
     "audio.d.ts",
     "waveshaper.d.ts"
   ],
   "dependencies": {
-    "@audio/resample-sinc": "^1.0.0"
+    "@audio/resample-sinc": "^1.4.0"
   },
   "keywords": [
     "audio",

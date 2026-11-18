@@ -1,8 +1,12 @@
 // Tape saturation — simplified machine model: tanh transfer with gentle post HF
 // rolloff (playback-head loss). Even/odd blend milder than tube/transistor.
 import { shape, onepole } from './shape.js'
-import { oversampler, up, down } from './oversample.js'
-export { LATENCY, RING } from './oversample.js'
+import { oversampler, up, down } from '@audio/resample-sinc'
+
+// @audio/resample-sinc's 4× oversampler, on the arithmetic of shape()'s resampling: LATENCY, the samples the streaming
+// form's output is late (the whole call reads that far ahead), and RING, the samples it moves past that once the input
+// stops (for a transfer that takes 0 to 0)
+export const { latency: LATENCY, ring: RING } = oversampler(4, 0)
 
 /** The one-pole's coefficient, its pole: higher warmth, a lower cutoff */
 export const pole = warmth => 0.35 + 0.45 * warmth
@@ -18,7 +22,7 @@ export default function tape (data, { drive = 1.5, warmth = 0.25, fs = 44100, ov
 
 /** State for stream(): calls of up to `maxBlockSize` samples, the oversampler's and the one-pole's */
 export function state (maxBlockSize) {
-	let s = oversampler(maxBlockSize)
+	let s = oversampler(4, maxBlockSize)
 	s.lp = new Float64Array(1)
 	return s
 }

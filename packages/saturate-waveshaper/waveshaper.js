@@ -1,7 +1,11 @@
 // Waveshaper — normalized tanh (default) or custom transfer curve, oversampled.
 import { shape } from './shape.js'
-import { oversampler, up, down } from './oversample.js'
-export { LATENCY, RING } from './oversample.js'
+import { oversampler, up, down } from '@audio/resample-sinc'
+
+// @audio/resample-sinc's 4× oversampler, on the arithmetic of shape()'s resampling: LATENCY, the samples the streaming
+// form's output is late (the whole call reads that far ahead), and RING, the samples it moves past that once the input
+// stops (for a transfer that takes 0 to 0)
+export const { latency: LATENCY, ring: RING } = oversampler(4, 0)
 
 export default function waveshaper (data, { drive = 2, curve, fs = 44100, oversample = 4, mix = 1 } = {}) {
 	let norm = Math.tanh(drive)
@@ -10,7 +14,7 @@ export default function waveshaper (data, { drive = 2, curve, fs = 44100, oversa
 }
 
 /** State for stream(): calls of up to `maxBlockSize` samples */
-export const state = oversampler
+export const state = maxBlockSize => oversampler(4, maxBlockSize)
 
 /**
  * Streaming form, oversampled 4×: `n` samples of `data` in place, `s` carried from call to call, the output LATENCY

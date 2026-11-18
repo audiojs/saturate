@@ -21,13 +21,13 @@ export function pole(warmth: number): number
 /** A number as a host gives a processor its values: a 1-length array. */
 export type Value = ArrayLike<number>
 
-/** State of `stream`: the oversampler's input and output history and the one-pole's, for calls of up to the size it was made for. */
-export interface TapeState { x: Float32Array; hi: Float32Array; y: Float32Array; dry: Float32Array; lp: Float64Array }
+/** State of `stream`: @audio/resample-sinc's 4× oversampler and the one-pole's, for calls of up to the size it was made for. */
+export type TapeState = import('@audio/resample-sinc').Oversampler & { lp: Float64Array }
 
 /** Samples the streaming form's output is late: the whole call's oversampler reads that far ahead. */
-export declare const LATENCY: 20
+export declare const LATENCY: 31
 /** Samples the oversampler's output still moves once its input stops, past LATENCY (the one-pole rings on). */
-export declare const RING: 19
+export declare const RING: 31
 
 /** State for `stream`, for calls of up to `maxBlockSize` samples. */
 export function state(maxBlockSize: number): TapeState

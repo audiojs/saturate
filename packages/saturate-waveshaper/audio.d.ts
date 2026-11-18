@@ -21,7 +21,7 @@ export interface WaveshaperOptions {
 export declare const waveshaper: {
   (ctx: Ctx): Process
   channels: "any"
-  latency: 20
+  latency: 31
   tail: (at: { sampleRate: number, params: Live, buffers: {} }) => number
   params: {
     /** 0.5..10 (default 2) */

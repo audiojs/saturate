@@ -1,5 +1,6 @@
 import test, { almost, ok, is } from 'tst'
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
+import { oversampler } from '@audio/resample-sinc'
 import { waveshaper, tube, transistor, tape, multiband } from './index.js'
 import { tube as tubeAtom } from '@audio/saturate-tube/audio'
 import { transistor as transistorAtom } from '@audio/saturate-transistor/audio'
@@ -109,12 +110,13 @@ const WHOLE = [
 ]
 
 test('streaming: each manifest is its kernel\'s whole call LATENCY samples late, bit for bit, in calls of any size', () => {
-	// The whole call reads 20 samples ahead of each output, which a stream cannot: it is that late instead
-	// (oversample.js). 64 zeros on each side keep the whole call's ends, where resample() divides by the taps it has,
-	// off the signal; multisat's crossover rings into the zeros at the end, so its last 20 samples are left out. At
-	// 16 kHz multisat's high point is past Nyquist, where a section passes or silences as eq-crossover's does
+	// The whole call reads LATENCY samples ahead of each output, which a stream cannot: it is that late instead
+	// (@audio/resample-sinc's oversampler). 64 zeros on each side keep the whole call's ends, where resample() divides
+	// by the taps it has, off the signal; multisat's crossover rings into the zeros at the end, so its last LATENCY
+	// samples are left out. At 16 kHz multisat's high point is past Nyquist, where a section passes or silences as
+	// eq-crossover's does
 	for (let [atom, kernel] of WHOLE) {
-		let L = atom.latency ?? 0, cut = atom === multisat ? 20 : 0, diff = 0
+		let L = atom.latency ?? 0, cut = atom === multisat ? L : 0, diff = 0
 		for (let [k, sr] of [44100, 48000, 96000, 22050, 16000].entries()) {
 			let set = {}
 			for (let [name, s] of Object.entries(atom.params)) set[name] = Math.fround(k && k < 4 ? s.min + (s.max - s.min) * rand() : s.default)
@@ -132,9 +134,9 @@ test('streaming: each manifest is its kernel\'s whole call LATENCY samples late,
 })
 
 test('streaming: an impulse moves the output no sooner than it enters, and last LATENCY + RING samples on', () => {
-	// the decimator reaches 20 samples ahead and 19 back (oversample.js): once the input stops (at 101), the output
-	// moves 19 samples past the latency, which the tail declares. (The sinc's zero crossings are not exactly 0 in
-	// floating point, so where the output first moves depends on the transfer: never before the impulse)
+	// the oversampler reaches LATENCY samples ahead and RING back (@audio/resample-sinc's): once the input stops (at
+	// 101), the output moves RING samples past the latency, which the tail declares. (The sinc's zero crossings are not
+	// exactly 0 in floating point, so where the output first moves depends on the transfer: never before the impulse)
 	for (let atom of [tubeAtom, transistorAtom, waveshaperAtom]) {
 		let x = new Float32Array(256), first = -1, last = -1
 		x[100] = 0.5
@@ -167,22 +169,22 @@ test('tails: 60 dB below a noise burst within latency + tail, at the extremes of
 	}
 })
 
-test('live: a drive that jumps is glided over 32 samples, then in force 8 samples later, bit for bit', () => {
+test('live: a drive that jumps is glided over 32 samples, then in force LATENCY samples later, bit for bit', () => {
 	// A value that jumps (no ramp, the call before it longer than 32 frames) is reached in a straight line over 32 samples
-	// from the call that brings it (glide, in each audio.js): its first sample is still the old value. The oversampler
-	// keeps the input as it came and 31 shaped samples at 4× the rate, 8 input samples' worth: so the output is the old
-	// render through the call's first sample and the next (the decimator's newest tap, a zero of the sinc, weighs the
-	// first glided sample by 1e-17), neither render from there, and the new render from 32 + 8 samples on
+	// from the call that brings it (glide, in each audio.js): its first sample is still the old value. The points a
+	// sample shapes at 4× the rate reach the output from that sample to LATENCY samples on (@audio/resample-sinc's
+	// oversampler): so the output is the old render through the call's first sample, neither render over the next
+	// 31 + LATENCY samples, and the new render from 32 + LATENCY samples on
 	for (let atom of [tubeAtom, transistorAtom, waveshaperAtom]) {
-		let x = [noise(4096, 9)], C = 1500
+		let x = [noise(4096, 9)], C = 1500, L = atom.latency
 		let a = run(atom, x, { block: 128, set: { drive: 2 } })[0], b = run(atom, x, { block: 128, set: { drive: 7.5 } })[0]
 		let y = run(atom, x, { block: 128, set: { drive: 2 }, at: C, then: { drive: 7.5 } })[0], before = 0, between = 0, after = 0
-		for (let i = 0; i <= C + 1; i++) if (y[i] !== a[i]) before++
-		for (let i = C + 2; i < C + 40; i++) if (y[i] !== a[i] && y[i] !== b[i]) between++
-		for (let i = C + 40; i < y.length; i++) if (y[i] !== b[i]) after++
-		is(before, 0, `${atom.name}: drive 2 through the sample after the change`)
-		is(between, 38, `${atom.name}: neither render over the 38 samples from there`)
-		is(after, 0, `${atom.name}: drive 7.5 from 40 samples after it`)
+		for (let i = 0; i <= C; i++) if (y[i] !== a[i]) before++
+		for (let i = C + 1; i < C + 32 + L; i++) if (y[i] !== a[i] && y[i] !== b[i]) between++
+		for (let i = C + 32 + L; i < y.length; i++) if (y[i] !== b[i]) after++
+		is(before, 0, `${atom.name}: drive 2 through the change's first sample`)
+		is(between, 31 + L, `${atom.name}: neither render over the ${31 + L} samples from there`)
+		is(after, 0, `${atom.name}: drive 7.5 from ${32 + L} samples after it`)
 	}
 	// tape's one-pole and multisat's crossover keep their state across the change: there it shows from the change on
 	for (let [atom, set, then] of [[tapeAtom, { warmth: 0.2 }, { warmth: 0.9 }], [multisat, { low: 200 }, { low: 600 }]]) {
@@ -194,9 +196,10 @@ test('live: a drive that jumps is glided over 32 samples, then in force 8 sample
 	}
 })
 
-test('the streaming oversampler is one text in every package that keeps a copy', () => {
-	let copies = ['tape', 'transistor', 'tube', 'waveshaper'].map(p => readFileSync(new URL(`./packages/saturate-${p}/oversample.js`, import.meta.url), 'utf8'))
-	ok(copies.every(t => t === copies[0]), 'saturate-tape, -transistor, -tube and -waveshaper')
+test('every package that oversamples streams on @audio/resample-sinc\'s oversampler, with no copy of its own', () => {
+	let o = oversampler(4, 0)
+	for (let p of ['tape', 'transistor', 'tube', 'waveshaper']) ok(!existsSync(new URL(`./packages/saturate-${p}/oversample.js`, import.meta.url)), `saturate-${p}: no oversample.js`)
+	for (let atom of [tubeAtom, transistorAtom, waveshaperAtom, tapeAtom, multisat]) is(atom.latency, o.latency, `${atom.name}: its latency, the 4× oversampler's`)
 })
 
 
@@ -245,17 +248,18 @@ test('manifests: a value that scales the signal is glided: a host\'s ramp of it 
 	// of m between two frames of the host's line; margin 1.1 for what of the curve is not its slope at that level, and
 	// tape's one-pole after the curve (it passes 220 Hz and 1 kHz at 0.984 at least at warmth 0.25).
 	// From the glide's end (the ramp's N frames, then 32: it plays the host's line 32 frames late), the render at the new
-	// value, bit for bit: mix at once, a curve's value after the oversampler's 8 samples; tape's drive feeds its one-pole,
-	// which keeps the difference. Before the glide each was one step of the whole change (×31 to ×468 at 220 Hz)
-	let n = fs * 3 / 4, N = Math.round(0.02 * fs), seed = 9, u = () => (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296
+	// value, bit for bit: mix at once, a curve's value `reach` samples on, as far as the points a sample shapes reach the
+	// output (@audio/resample-sinc's oversampler: to its latency); tape's drive feeds its one-pole, which keeps the
+	// difference. Before the glide each was one step of the whole change (×31 to ×468 at 220 Hz)
+	let n = fs * 3 / 4, N = Math.round(0.02 * fs), seed = 9, u = () => (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296, reach = oversampler(4, 0).latency
 	let tubeG = (d, b) => d / Math.cosh(d * b) ** 2 / Math.tanh(d * (1 + Math.abs(b)))
 	const ROWS = [
 		// processor, the change, the gain's law (or 'mix'), frames past the line before the render at the new value
-		['tube', { drive: 7.625 }, s => tubeG(s.drive, s.bias), 8], ['tube', { bias: 0.75 }, s => tubeG(s.drive, s.bias), 8], ['tube', { mix: 0.75 }, 'mix', 0],
-		['transistor', { drive: 7.625 }, s => s.drive * 1.5 / Math.max(1, s.drive * 0.75), 8], ['transistor', { mix: 0.75 }, 'mix', 0],
-		['waveshaper', { drive: 7.625 }, s => s.drive / Math.tanh(s.drive), 8], ['waveshaper', { mix: 0.75 }, 'mix', 0],
+		['tube', { drive: 7.625 }, s => tubeG(s.drive, s.bias), reach], ['tube', { bias: 0.75 }, s => tubeG(s.drive, s.bias), reach], ['tube', { mix: 0.75 }, 'mix', 0],
+		['transistor', { drive: 7.625 }, s => s.drive * 1.5 / Math.max(1, s.drive * 0.75), reach], ['transistor', { mix: 0.75 }, 'mix', 0],
+		['waveshaper', { drive: 7.625 }, s => s.drive / Math.tanh(s.drive), reach], ['waveshaper', { mix: 0.75 }, 'mix', 0],
 		['tape', { drive: 7.625 }, s => s.drive / Math.tanh(s.drive), null], ['tape', { mix: 0.75 }, 'mix', 0],
-		['multisat', { drive: 7.625 }, s => tubeG(s.drive, 0.25), 8], ['multisat', { mix: 0.75 }, 'mix', 0],
+		['multisat', { drive: 7.625 }, s => tubeG(s.drive, 0.25), reach], ['multisat', { mix: 0.75 }, 'mix', 0],
 	]
 	for (let [name, to, law, settle] of ROWS) for (let f of [220, 1000]) for (let at of [22016, 22063]) {
 		let m = ATOMS[name], k = Object.keys(to)[0], base = { [k]: k === 'mix' ? 0.25 : k === 'bias' ? 0.25 : 2.875 }, label = `${name}.${k} ${base[k]} → ${to[k]}, ${f} Hz, at ${at}`

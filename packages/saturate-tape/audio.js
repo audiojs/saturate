@@ -1,5 +1,5 @@
 // atom manifest — tape saturation (tanh + even-harmonic bend + warmth one-pole).
-// Streaming: the 4× oversampler (oversample.js) carries its input from call to call, so
+// Streaming: the 4× oversampler (@audio/resample-sinc's) carries its input from call to call, so
 // the output is LATENCY samples late; the one-pole keeps its state. drive, warmth and mix
 // are live.
 // drive and mix scale the signal with nothing behind them, so each is smoothed (20 ms) and

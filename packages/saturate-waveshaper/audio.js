@@ -1,5 +1,5 @@
 // atom manifest — normalized-tanh waveshaper (custom curve fn = direct import).
-// Streaming: the 4× oversampler (oversample.js) carries its input from call to call, so
+// Streaming: the 4× oversampler (@audio/resample-sinc's) carries its input from call to call, so
 // the output is LATENCY samples late, and moves RING samples past that once the input
 // stops. drive and mix are live.
 // drive and mix scale the signal with nothing behind them (the curve has no state), so each is

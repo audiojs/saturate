@@ -23,7 +23,7 @@ export interface TapeOptions {
 export declare const tape: {
   (ctx: Ctx): Process
   channels: "any"
-  latency: 20
+  latency: 31
   tail: (at: { sampleRate: number, params: Live, buffers: {} }) => number
   params: {
     /** 0.5..10 (default 1.5) */

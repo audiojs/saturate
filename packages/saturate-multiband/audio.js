@@ -11,7 +11,7 @@
 // mix blends each band's tube with that band's own input, so at mix 0 the output is the
 // crossover's sum, not the input delayed: a dry path through the same crossover keeps the
 // phase of the wet bands, so a partial mix does not comb (with the input delayed as the dry
-// path, mix 0.5 at drive 0.5 would notch 26 dB at a 2 kHz point). The sum is flat with the
+// path, mix 0.5 at drive 0.5 would notch 24 dB at a 2 kHz point). The sum is flat with the
 // points far apart (within 0.12 dB a decade apart, as at their defaults) and dips where the
 // low and high bands overlap as the points come closer: 8 dB an octave apart.
 

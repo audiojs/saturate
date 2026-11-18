@@ -16,13 +16,13 @@ export default function transistor(data: Float32Array, options?: TransistorOptio
 /** A number as a host gives a processor its values: a 1-length array. */
 export type Value = ArrayLike<number>
 
-/** State of `stream`: the oversampler's input and output history, for calls of up to the size it was made for. */
-export interface TransistorState { x: Float32Array; hi: Float32Array; y: Float32Array; dry: Float32Array }
+/** State of `stream`: @audio/resample-sinc's 4× oversampler, its input and output history, for calls of up to the size it was made for. */
+export type TransistorState = import('@audio/resample-sinc').Oversampler
 
 /** Samples the streaming form's output is late: the whole call's oversampler reads that far ahead. */
-export declare const LATENCY: 20
+export declare const LATENCY: 31
 /** Samples the streaming form's output still moves once its input stops, past LATENCY. */
-export declare const RING: 19
+export declare const RING: 31
 
 /** State for `stream`, for calls of up to `maxBlockSize` samples. */
 export function state(maxBlockSize: number): TransistorState
