@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate-waveshaper",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Waveshaper — normalized tanh or custom curve, oversampled",
   "type": "module",
   "sideEffects": false,

@@ -1,6 +1,6 @@
 {
   "name": "@audio/saturate-tape",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Tape saturation — tanh transfer + playback HF rolloff (simplified machine model)",
   "type": "module",
   "sideEffects": false,
